@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function Home(): React.ReactElement {
   return (
     <>
-      <div>Home 页面</div>
+      <div className="text-white">Home 页面</div>
       <ul>
         <li>
           <Link href="/">Home</Link>
