@@ -1,7 +1,5 @@
-import React from 'react';
+import React from "react";
 
 export default function About(): React.ReactElement {
-  return (
-    <div>About 页面</div>
-  );
+  return <div>About 页面</div>;
 }
