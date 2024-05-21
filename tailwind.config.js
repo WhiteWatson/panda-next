@@ -17,6 +17,7 @@ module.exports = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
         gradient: "linear-gradient(90deg,#8B8BFF,#3F3DFF)",
         gradientR: "linear-gradient(90deg,#3F3DFF,#8B8BFF)",
+        gradientAbout: "linear-gradient(90deg,#4DA8FF,#8073F7)",
       },
     },
   },

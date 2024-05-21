@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Layout from "@/components/Layout";
+import { Avatar } from "@nextui-org/react";
 
 export default function Home(): React.ReactElement {
   return (
@@ -25,20 +26,32 @@ export default function Home(): React.ReactElement {
         <div className="text-[#25327A] text-4xl flex justify-center flex-col gap-10">
           <span className="text-center">先进企业协作与管理平台</span>
           <div className="flex justify-around">
-            <span className="w-[30%] rounded-2xl shadow-2xl h-80 flex justify-center flex-col">
-              <span></span>
+            <span className="w-[30%] rounded-2xl shadow-2xl h-80 flex justify-center flex-col gap-4 items-center">
+              <Avatar
+                name="Junior"
+                size="lg"
+                classNames={{ base: "w-36 h-36" }}
+              />
               <span className="text-2xl text-center">
                 家政服务管理系统 {">"}
               </span>
             </span>
-            <span className="w-[30%] rounded-2xl shadow-2xl h-80 flex justify-center flex-col">
-              <span></span>
+            <span className="w-[30%] rounded-2xl shadow-2xl h-80 flex justify-center flex-col gap-4 items-center">
+              <Avatar
+                name="Junior"
+                size="lg"
+                classNames={{ base: "w-36 h-36" }}
+              />
               <span className="text-2xl text-center">
                 家政服务管理系统 {">"}
               </span>
             </span>
-            <span className="w-[30%] rounded-2xl shadow-2xl h-80 flex justify-center flex-col">
-              <span></span>
+            <span className="w-[30%] rounded-2xl shadow-2xl h-80 flex justify-center flex-col gap-4 items-center">
+              <Avatar
+                name="Junior"
+                size="lg"
+                classNames={{ base: "w-36 h-36" }}
+              />
               <span className="text-2xl text-center">
                 家政服务管理系统 {">"}
               </span>
@@ -66,22 +79,47 @@ export default function Home(): React.ReactElement {
             营销获客、客户跟进、维护客户关系从拓客到售后围绕客户全方位立体服务
           </span>
           <div className="flex justify-around z-10">
-            <span className="w-[30%] bg-white rounded-2xl shadow-2xl h-[600px] flex justify-center flex-col">
-              <span></span>
-              <span className="text-2xl text-center">
+            <span className="w-[30%] bg-white rounded-2xl shadow-2xl h-[600px] flex justify-center flex-col gap-4 px-3">
+              <span className="flex justify-between gap-4">
+                <Avatar
+                  name="Junior"
+                  size="lg"
+                  classNames={{ base: "w-20 h-20 min-w-20" }}
+                />
+                <span className="text-2xl">三款营销工具，0成本拉新获客</span>
+              </span>
+              <span className="text-2xl">
                 微网站、热文推广、宣传海报三款营销工具帮助家政公司品牌宣传，低成本获取客户线索
               </span>
             </span>
-            <span className="w-[30%] bg-white rounded-2xl shadow-2xl h-[600px] flex justify-center flex-col">
-              <span></span>
-              <span className="text-2xl text-center">
+            <span className="w-[30%] bg-white rounded-2xl shadow-2xl h-[600px] flex justify-center flex-col gap-4 px-3">
+              <span className="flex justify-between gap-4">
+                <Avatar
+                  name="Junior"
+                  size="lg"
+                  classNames={{ base: "w-20 h-20 min-w-20" }}
+                />
+                <span className="text-2xl">
+                  客户管理按需跟进客户、给客户更好的服务
+                </span>
+              </span>
+              <span className="text-2xl">
                 客户管理不错过客户任何一个可能成单的机会
                 快速匹配阿姨，精准匹配客户需求 在线签署合同给客户更专业的体验
               </span>
             </span>
-            <span className="w-[30%] bg-white rounded-2xl shadow-2xl h-[600px] flex justify-center flex-col">
-              <span></span>
-              <span className="text-2xl text-center">
+            <span className="w-[30%] bg-white rounded-2xl shadow-2xl h-[600px] flex justify-center flex-col gap-4 px-3">
+              <span className="flex justify-between gap-4">
+                <Avatar
+                  name="Junior"
+                  size="lg"
+                  classNames={{ base: "w-20 h-20 min-w-20" }}
+                />
+                <span className="text-2xl">
+                  日常关怀、客户数据分析帮助你维护客户关系
+                </span>
+              </span>
+              <span className="text-2xl">
                 生日、节日短信日常关怀让客户感受你无微不至的爱
                 客户数据分析让你更了解用户的需求，可以精准推荐，提高转化率
               </span>
@@ -168,32 +206,6 @@ export default function Home(): React.ReactElement {
           <span className="flex flex-col items-center text-2xl">
             截止2022年1月，合作家政门店超过40000家
           </span>
-        </div>
-        {/* footer */}
-        <div className="bg-[#222222] h-[400px] text-white flex justify-between px-10 pt-20">
-          <div className="flex flex-col gap-2">
-            <span>联系地址：xxxx</span>
-            <span>联系地址：xxxx</span>
-            <span>联系地址：xxxx</span>
-            <span>联系地址：xxxx</span>
-            <span>联系地址：xxxx</span>
-            <span>联系地址：xxxx</span>
-            <span>联系地址：xxxx</span>
-            <span>联系地址：xxxx</span>
-            <span>联系地址：xxxx</span>
-            <span>联系地址：xxxx</span>
-            <span>联系地址：xxxx</span>
-            <span>联系地址：xxxx</span>
-          </div>
-          <div className="flex flex-col items-center gap-4">
-            <Image
-              src={"/QR.png"} // 图片路径相对于 public 文件夹
-              alt="logo"
-              width={280}
-              height={280}
-            />
-            <span>扫码关注熊猫系统微信公众号</span>
-          </div>
         </div>
       </>
     </Layout>
