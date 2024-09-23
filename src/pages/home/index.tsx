@@ -1,20 +1,49 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Layout from "@/components/Layout";
 import { Avatar } from "@nextui-org/react";
+import { getInformation } from "@/services";
 
 export default function Home(): React.ReactElement {
+  const [resumeInformation, setResumeInformation] = useState<any>(null);
+  const [activeKey, setActiveKey] = useState(1);
+
+  useEffect(() => {
+    const fetchResumeInformation = async () => {
+      const info = await getInformation("FIRST_TOP1_RESUME");
+      setResumeInformation(info);
+      console.log(info);
+    };
+
+    fetchResumeInformation();
+  }, []);
+
+  // Extract the required information from resumeInformation
+  const { moudleConfigBase, detailInfoEntityList } =
+    resumeInformation?.data || {};
+
+  // Function to get the correct index for circular rotation
+  const getCircularIndex = (index: number) => {
+    return ((index - 1 + 3) % 3) + 1;
+  };
+
+  // Function to handle slide change
+  const handleSlideChange = (index: number) => {
+    setActiveKey(index);
+  };
+
   return (
     <Layout>
       <>
         {/* description */}
         <div className="flex mt-4 items-center px-10">
           <div className="flex flex-col gap-4 text-2xl text-[#25327A]">
-            <h1 className="text-7xl">中诺金管家</h1>
-            <span>4000+家政公司的选择</span>
+            <h1 className="text-7xl">{moudleConfigBase?.headTitle}</h1>
             <span>
-              阿姨电子简历、北京调查、家政保险众多功能简单易用，是能提升家政公司管理、盈利能力的互联网家政管理软件。
+              {moudleConfigBase?.subTitle.split("\\n").map((line, index) => (
+                <span key={index}>{line}</span>
+              ))}
             </span>
             <button className=" text-white bg-gradientR px-8 py-4 w-52">
               免费试用
@@ -59,13 +88,49 @@ export default function Home(): React.ReactElement {
           </div>
         </div>
         <div className="text-[#25327A] text-4xl flex flex-col gap-10 mt-10">
-          <span className="text-center">
-            电子简历方便高效，身份查询准确有保障
-          </span>
+          <span className="text-center">{moudleConfigBase?.headTitle}</span>
           <span className="flex flex-col items-center text-2xl">
-            <span>阿姨简历轻松制作，展示美观分享简单</span>
-            <span>身份信用一键查询，不良信息一览无遗</span>
+            {moudleConfigBase?.subTitle.split("\\n").map((line, index) => (
+              <span key={index}>{line}</span>
+            ))}
           </span>
+        </div>
+        {/* Carousel */}
+        <div className="relative w-full mt-10 z-10 px-10">
+          <div className="relative w-full min-h-[200px] h-full overflow-hidden">
+            {detailInfoEntityList?.slice(0, 3).map((item, index) => {
+              const position = getCircularIndex(activeKey - index);
+              const className =
+                position === 2
+                  ? "relative top-0 left-1/2 transform -translate-x-1/2 w-[40%] h-auto z-20 transition-all duration-500 ease-in-out"
+                  : position === 1
+                  ? "absolute top-[15%] left-0 w-[30%] h-auto z-10 transition-all duration-500 ease-in-out"
+                  : "absolute top-[15%] right-0 w-[30%] h-auto z-10 transition-all duration-500 ease-in-out";
+
+              return (
+                <div key={index} className={className}>
+                  <img
+                    src={item.headImageUrl}
+                    alt={item.headTitle}
+                    className="w-full min-h-[200px] object-cover mx-auto"
+                  />
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Carousel indicators */}
+          <div className="flex justify-center mt-4">
+            {detailInfoEntityList?.slice(0, 3).map((_, index) => (
+              <button
+                key={index}
+                onClick={() => handleSlideChange(index + 1)}
+                className={`w-16 h-2 mx-1 rounded-full transition-all duration-300 ${
+                  activeKey === index + 1 ? "bg-[#CCCCCC]" : "bg-[#e8e8e8]"
+                }`}
+              />
+            ))}
+          </div>
         </div>
         <div className="text-[#25327A] text-4xl flex flex-col relative gap-10 mt-10 pt=[200px]">
           <div
