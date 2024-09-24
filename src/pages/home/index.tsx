@@ -7,21 +7,61 @@ import { getInformation } from "@/services";
 
 export default function Home(): React.ReactElement {
   const [resumeInformation, setResumeInformation] = useState<any>(null);
+  const [helpInformation, setHelpInformation] = useState<any>(null);
+  const [functionInformation, setFunctionInformation] = useState<any>(null);
+  const [serviceAddInformation, setServiceAddInformation] = useState<any>(null);
+  const [cooperativeUserInformation, setCooperativeUserInformation] =
+    useState<any>(null);
+  const [cooperativePartnerInformation, setCooperativePartnerInformation] =
+    useState<any>(null);
   const [activeKey, setActiveKey] = useState(1);
 
   useEffect(() => {
-    const fetchResumeInformation = async () => {
-      const info = await getInformation("FIRST_TOP1_RESUME");
-      setResumeInformation(info);
-      console.log(info);
+    const fetchInformation = async () => {
+      try {
+        const [
+          resumeInfo,
+          helpInfo,
+          functionInfo,
+          serviceAddInfo,
+          cooperativeUserInfo,
+          cooperativePartnerInfo,
+        ] = await Promise.all([
+          getInformation("FIRST_TOP1_RESUME"),
+          getInformation("FIRST_TOP2_HELP"),
+          getInformation("FIRST_TOP3_FUNCTION"),
+          getInformation("FIRST_TOP4_SERVICE_ADD"),
+          getInformation("FIRST_TOP5_COOPRATIVE_USER"),
+          getInformation("FIRST_TOP6_COOPRATIVE_PARTNER"),
+        ]);
+
+        setResumeInformation(resumeInfo);
+        setHelpInformation(helpInfo);
+        setFunctionInformation(functionInfo);
+        setServiceAddInformation(serviceAddInfo);
+        setCooperativeUserInformation(cooperativeUserInfo);
+        setCooperativePartnerInformation(cooperativePartnerInfo);
+      } catch (error) {
+        console.error("Failed to fetch information", error);
+      }
     };
 
-    fetchResumeInformation();
+    fetchInformation();
   }, []);
 
-  // Extract the required information from resumeInformation
-  const { moudleConfigBase, detailInfoEntityList } =
-    resumeInformation?.data || {};
+  // Extract the required information from the state
+  const {
+    moudleConfigBase: resumeConfig,
+    detailInfoEntityList: resumeDetails,
+  } = resumeInformation?.data || {};
+  const { moudleConfigBase: helpConfig } = helpInformation?.data || {};
+  const { moudleConfigBase: functionConfig } = functionInformation?.data || {};
+  const { moudleConfigBase: serviceAddConfig } =
+    serviceAddInformation?.data || {};
+  const { moudleConfigBase: cooperativeUserConfig } =
+    cooperativeUserInformation?.data || {};
+  const { moudleConfigBase: cooperativePartnerConfig } =
+    cooperativePartnerInformation?.data || {};
 
   // Function to get the correct index for circular rotation
   const getCircularIndex = (index: number) => {
@@ -39,11 +79,10 @@ export default function Home(): React.ReactElement {
         {/* description */}
         <div className="flex mt-4 items-center px-10">
           <div className="flex flex-col gap-4 text-2xl text-[#25327A]">
-            <h1 className="text-7xl">{moudleConfigBase?.headTitle}</h1>
+            <h1 className="text-7xl">中诺金管家</h1>
+            <span>4000+家政公司的选择</span>
             <span>
-              {moudleConfigBase?.subTitle.split("\\n").map((line, index) => (
-                <span key={index}>{line}</span>
-              ))}
+              阿姨电子简历、北京调查、家政保险众多功能简单易用，是能提升家政公司管理、盈利能力的互联网家政管理软件。
             </span>
             <button className=" text-white bg-gradientR px-8 py-4 w-52">
               免费试用
@@ -52,7 +91,7 @@ export default function Home(): React.ReactElement {
           <Image src="/logo.png" alt="logo" width={585} height={585} />
         </div>
         {/* content */}
-        <div className="text-[#25327A] text-4xl flex justify-center flex-col gap-10">
+        {/* <div className="text-[#25327A] text-4xl flex justify-center flex-col gap-10">
           <span className="text-center">先进企业协作与管理平台</span>
           <div className="flex justify-around">
             <span className="w-[30%] rounded-2xl shadow-2xl h-80 flex justify-center flex-col gap-4 items-center">
@@ -86,11 +125,11 @@ export default function Home(): React.ReactElement {
               </span>
             </span>
           </div>
-        </div>
+        </div> */}
         <div className="text-[#25327A] text-4xl flex flex-col gap-10 mt-10">
-          <span className="text-center">{moudleConfigBase?.headTitle}</span>
+          <span className="text-center">{resumeConfig?.headTitle}</span>
           <span className="flex flex-col items-center text-2xl">
-            {moudleConfigBase?.subTitle.split("\\n").map((line, index) => (
+            {resumeConfig?.subTitle.split("\\n").map((line, index) => (
               <span key={index}>{line}</span>
             ))}
           </span>
@@ -98,7 +137,7 @@ export default function Home(): React.ReactElement {
         {/* Carousel */}
         <div className="relative w-full mt-10 z-10 px-10">
           <div className="relative w-full min-h-[200px] h-full overflow-hidden">
-            {detailInfoEntityList?.slice(0, 3).map((item, index) => {
+            {resumeDetails?.slice(0, 3).map((item, index) => {
               const position = getCircularIndex(activeKey - index);
               const className =
                 position === 2
@@ -121,7 +160,7 @@ export default function Home(): React.ReactElement {
 
           {/* Carousel indicators */}
           <div className="flex justify-center mt-4">
-            {detailInfoEntityList?.slice(0, 3).map((_, index) => (
+            {resumeDetails?.slice(0, 3).map((_, index) => (
               <button
                 key={index}
                 onClick={() => handleSlideChange(index + 1)}
@@ -135,142 +174,122 @@ export default function Home(): React.ReactElement {
         <div className="text-[#25327A] text-4xl flex flex-col relative gap-10 mt-10 pt=[200px]">
           <div
             className="absolute top-[-200px] inset-0 bg-cover bg-center z-0 h-[600px]"
+            style={{ backgroundImage: `url(${helpConfig?.headImageUrl})` }}
+          ></div>
+          <span className="text-center">{helpConfig?.headTitle}</span>
+          <span className="flex flex-col items-center text-2xl">
+            {helpConfig?.subTitle.split("\\n").map((line, index) => (
+              <span key={index}>{line}</span>
+            ))}
+          </span>
+          <div className="flex justify-around z-10">
+            {helpInformation?.data?.detailInfoEntityList.map((item, index) => (
+              <span
+                key={index}
+                // className="w-[30%] bg-white rounded-2xl shadow-2xl h-[600px] flex justify-center flex-col gap-4 px-3"
+                className="w-[30%] rounded-2xl flex justify-center flex-col gap-4 px-3"
+              >
+                {/* <span className="flex justify-between gap-4">
+                  <Avatar
+                    name="Junior"
+                    size="lg"
+                    classNames={{ base: "w-20 h-20 min-w-20" }}
+                  />
+                  <span className="text-2xl">{item.headTitle}</span>
+                </span> */}
+                <span className="text-2xl">
+                  <img
+                    src={item.headImageUrl}
+                    alt={item.headTitle}
+                    className="w-full h-auto"
+                  />
+                </span>
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className="text-[#25327A] text-4xl flex flex-col relative gap-10 pt-20 pt=[200px] relative">
+          <div
+            className="absolute inset-0 bg-cover bg-top z-0 h-[600px] top-[-10px]"
+            style={{ backgroundImage: "url('bg.png')" }}
+          ></div>
+          <span className="text-center">{functionConfig?.headTitle}</span>
+          <span className="flex flex-col items-center text-2xl">
+            {functionConfig?.subTitle.split("\\n").map((line, index) => (
+              <span key={index}>{line}</span>
+            ))}
+          </span>
+          <div className="flex justify-around z-10 bg-white w-full flex-wrap">
+            {functionInformation?.data?.detailInfoEntityList.map(
+              (item, index) => (
+                <div key={index} className="w-[25%] flex flex-col items-center">
+                  <img
+                    src={item.headImageUrl}
+                    alt={item.headTitle}
+                    className="h-1/2 h-auto"
+                  />
+                  <span className="text-center text-2xl">{item.headTitle}</span>
+                </div>
+              )
+            )}
+          </div>
+        </div>
+        <div className="text-[#25327A] text-4xl flex flex-col relative gap-10 mt-10 pt=[200px] relative">
+          {/* <div
+            className="absolute inset-0 bg-cover bg-center z-0 h-[600px]"
+            style={{ backgroundImage: "url('bg.png')" }}
+          ></div> */}
+          <span className="text-center">{serviceAddConfig?.headTitle}</span>
+          <div className="flex justify-around z-10 flex-wrap gap-6">
+            {serviceAddInformation?.data?.detailInfoEntityList.map(
+              (item, index) => (
+                <span
+                  key={index}
+                  className="w-[30%] bg-white rounded-2xl shadow-2xl flex justify-center flex-col gap-4"
+                >
+                  {/* <span></span>
+                  <span className="text-center">{item.headTitle}</span> */}
+                  <span className="text-2xl text-center overflow-hidden">
+                    <img
+                      src={item.headImageUrl}
+                      alt={item.headTitle}
+                      className="w-full h-auto"
+                    />
+                  </span>
+                </span>
+              )
+            )}
+          </div>
+        </div>
+        <div className="text-[#25327A] text-4xl flex flex-col relative gap-10 mt-20 pt=[200px] mb-[600px] relative">
+          <div
+            className="absolute inset-0 bg-cover bg-top z-0 h-[700px] top-[-150px]"
             style={{ backgroundImage: "url('bg.png')" }}
           ></div>
           <span className="text-center">
-            帮助合作家政公司减少客户流失、提升客户满意度
+            {cooperativeUserConfig?.headTitle}
           </span>
           <span className="flex flex-col items-center text-2xl">
-            营销获客、客户跟进、维护客户关系从拓客到售后围绕客户全方位立体服务
+            {cooperativeUserConfig?.subTitle}
           </span>
-          <div className="flex justify-around z-10">
-            <span className="w-[30%] bg-white rounded-2xl shadow-2xl h-[600px] flex justify-center flex-col gap-4 px-3">
-              <span className="flex justify-between gap-4">
-                <Avatar
-                  name="Junior"
-                  size="lg"
-                  classNames={{ base: "w-20 h-20 min-w-20" }}
-                />
-                <span className="text-2xl">三款营销工具，0成本拉新获客</span>
-              </span>
-              <span className="text-2xl">
-                微网站、热文推广、宣传海报三款营销工具帮助家政公司品牌宣传，低成本获取客户线索
-              </span>
-            </span>
-            <span className="w-[30%] bg-white rounded-2xl shadow-2xl h-[600px] flex justify-center flex-col gap-4 px-3">
-              <span className="flex justify-between gap-4">
-                <Avatar
-                  name="Junior"
-                  size="lg"
-                  classNames={{ base: "w-20 h-20 min-w-20" }}
-                />
-                <span className="text-2xl">
-                  客户管理按需跟进客户、给客户更好的服务
-                </span>
-              </span>
-              <span className="text-2xl">
-                客户管理不错过客户任何一个可能成单的机会
-                快速匹配阿姨，精准匹配客户需求 在线签署合同给客户更专业的体验
-              </span>
-            </span>
-            <span className="w-[30%] bg-white rounded-2xl shadow-2xl h-[600px] flex justify-center flex-col gap-4 px-3">
-              <span className="flex justify-between gap-4">
-                <Avatar
-                  name="Junior"
-                  size="lg"
-                  classNames={{ base: "w-20 h-20 min-w-20" }}
-                />
-                <span className="text-2xl">
-                  日常关怀、客户数据分析帮助你维护客户关系
-                </span>
-              </span>
-              <span className="text-2xl">
-                生日、节日短信日常关怀让客户感受你无微不至的爱
-                客户数据分析让你更了解用户的需求，可以精准推荐，提高转化率
-              </span>
-            </span>
-          </div>
-        </div>
-        <div className="text-[#25327A] text-4xl flex flex-col relative gap-10 mt-20 pt=[200px]">
-          <div
-            className="absolute inset-0 bg-cover bg-center z-0 h-[600px]"
-            style={{ backgroundImage: "url('bg.png')" }}
-          ></div>
-          <span className="text-center">SaaS赋能平台，功能丰富易用</span>
-          <span className="flex flex-col items-center text-2xl">
-            熊猫系统的功能全面而易用，能够满足几乎所有家政公司的日常需求，
-            提效率，降成本，就是这么简单
-          </span>
-          <div className="flex justify-around z-10 bg-white w-full">
-            <Image
-              src="/functions.png" // 图片路径相对于 public 文件夹
-              alt="functions"
-              layout="responsive"
-              width={100}
-              height={40}
-            />
-          </div>
-        </div>
-        <div className="text-[#25327A] text-4xl flex flex-col relative gap-10 mt-10 pt=[200px] ">
-          <div
-            className="absolute inset-0 bg-cover bg-center z-0 h-[600px]"
-            style={{ backgroundImage: "url('bg.png')" }}
-          ></div>
-          <span className="text-center">增值服务</span>
           <div className="flex justify-around z-10 flex-wrap gap-6">
-            <span className="w-[30%] bg-white rounded-2xl shadow-2xl h-[300px] flex justify-center flex-col gap-4">
-              <span></span>
-              <span className="text-center">保险</span>
-              <span className="text-2xl text-center">
-                微网站、热文推广、宣传海报三款营销工具帮助家政公司品牌宣传，低成本获取客户线索
-              </span>
-            </span>
-            <span className="w-[30%] bg-white rounded-2xl shadow-2xl h-[300px] flex justify-center flex-col gap-4">
-              <span></span>
-              <span className="text-center">保险</span>
-              <span className="text-2xl text-center">
-                微网站、热文推广、宣传海报三款营销工具帮助家政公司品牌宣传，低成本获取客户线索
-              </span>
-            </span>
-            <span className="w-[30%] bg-white rounded-2xl shadow-2xl h-[300px] flex justify-center flex-col gap-4">
-              <span></span>
-              <span className="text-center">保险</span>
-              <span className="text-2xl text-center">
-                微网站、热文推广、宣传海报三款营销工具帮助家政公司品牌宣传，低成本获取客户线索
-              </span>
-            </span>
-            <span className="w-[30%] bg-white rounded-2xl shadow-2xl h-[300px] flex justify-center flex-col gap-4">
-              <span></span>
-              <span className="text-center">保险</span>
-              <span className="text-2xl text-center">
-                微网站、热文推广、宣传海报三款营销工具帮助家政公司品牌宣传，低成本获取客户线索
-              </span>
-            </span>
-            <span className="w-[30%] bg-white rounded-2xl shadow-2xl h-[300px] flex justify-center flex-col gap-4">
-              <span></span>
-              <span className="text-center">保险</span>
-              <span className="text-2xl text-center">
-                微网站、热文推广、宣传海报三款营销工具帮助家政公司品牌宣传，低成本获取客户线索
-              </span>
-            </span>
-            <span className="w-[30%] bg-white rounded-2xl shadow-2xl h-[300px] flex justify-center flex-col gap-4">
-              <span></span>
-              <span className="text-center">保险</span>
-              <span className="text-2xl text-center">
-                微网站、热文推广、宣传海报三款营销工具帮助家政公司品牌宣传，低成本获取客户线索
-              </span>
-            </span>
+            {cooperativeUserInformation?.data?.detailInfoEntityList.map(
+              (item, index) => (
+                <span
+                  key={index}
+                  className="w-[30%] bg-white rounded-2xl shadow-2xl flex justify-center flex-col gap-4"
+                >
+                  <span className="text-2xl text-center overflow-hidden">
+                    <img
+                      src={item.headImageUrl}
+                      alt={item.headTitle}
+                      className="w-full h-auto"
+                    />
+                  </span>
+                </span>
+              )
+            )}
           </div>
-        </div>
-        <div className="text-[#25327A] text-4xl flex flex-col relative gap-10 mt-20 pt=[200px] mb-[600px]">
-          <div
-            className="absolute inset-0 bg-cover bg-center z-0 h-[600px]"
-            style={{ backgroundImage: "url('bg.png')" }}
-          ></div>
-          <span className="text-center">合作客户</span>
-          <span className="flex flex-col items-center text-2xl">
-            截止2022年1月，合作家政门店超过40000家
-          </span>
         </div>
       </>
     </Layout>
