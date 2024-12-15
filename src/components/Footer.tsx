@@ -21,9 +21,6 @@ const Footer: React.FC<FooterProps> = (props) => {
           <span>联系地址：xxxx</span>
           <span>联系地址：xxxx</span>
           <span>联系地址：xxxx</span>
-          <span>联系地址：xxxx</span>
-          <span>联系地址：xxxx</span>
-          <span>联系地址：xxxx</span>
         </div>
         <div className="flex flex-col items-center gap-4">
           <Image
